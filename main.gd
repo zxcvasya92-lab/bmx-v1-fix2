@@ -849,19 +849,19 @@ func set_bone_global_basis(b: int, nb: Basis) -> void:
 
 func aim_bone(nm: String, child: String, target: Vector3) -> void:
 	var b := bi(nm)
-	var gp := skel.get_bone_global_pose(b)
+	var bone_pose := skel.get_bone_global_pose(b)
 	var cp := skel.get_bone_global_pose(bi(child))
-	var cur := cp.origin - gp.origin
-	var want := target - gp.origin
+	var cur := cp.origin - bone_pose.origin
+	var want := target - bone_pose.origin
 	if cur.length() < 0.0001 or want.length() < 0.0001:
 		return
 	var q := Quaternion(cur.normalized(), want.normalized())
-	set_bone_global_basis(b, Basis(q) * gp.basis)
+	set_bone_global_basis(b, Basis(q) * bone_pose.basis)
 
 func twist_bone(nm: String, axis: Vector3, ang: float) -> void:
 	var b := bi(nm)
-	var gp := skel.get_bone_global_pose(b)
-	set_bone_global_basis(b, Basis(axis.normalized(), ang) * gp.basis)
+	var bone_pose := skel.get_bone_global_pose(b)
+	set_bone_global_basis(b, Basis(axis.normalized(), ang) * bone_pose.basis)
 
 func pedal_pos(right: bool, a: float) -> Vector3:
 	var rest := ped_r_rest if right else ped_l_rest
